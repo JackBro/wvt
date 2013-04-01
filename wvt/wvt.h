@@ -1,5 +1,5 @@
 /*
- * wvt.cpp - windows terminal emulator
+ * wvt.h - windows terminal emulator
  *
  * Copyright (c) 2013 Joseph M DeLiso
  *
@@ -19,49 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#pragma once
+
 #include <Windows.h>
 
-#include <cassert>
-#include <iostream>
-#include <fstream>
-
-#include "wvt.h"
-#include "wvtWin.h"
-
-int CALLBACK WinMain(
-  HINSTANCE hInstance,
-  HINSTANCE hPrevInstance,
-  LPSTR lpCmdLine,
-  int nCmdShow) {
-    UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
-
-    if(debugging()) {
-      BOOL allocOk = AllocConsole();
-      assert(allocOk);
-
-      std::ofstream conOut("con");
-      conOut << "DEBUGGING: ON";
-      conOut.close();
-    }
-
-    wvtWin* win = new wvtWin(hInstance);
-
-    if( win->registerWindowClass() &&
-      win->createMainWindow(nCmdShow) ) {
-        win->messageLoop();
-    } else {
-      return EXIT_FAILURE;
-    }
-
-    delete win;
-    return EXIT_SUCCESS;
-}
-
-BOOL debugging() {
-#ifdef _DEBUG
-  return true;
-#else
-  return false;
-#endif
-}
+extern "C" BOOL debugging();

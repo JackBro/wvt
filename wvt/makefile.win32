@@ -2,22 +2,34 @@
 
 OUT=wvt
 
-CFLAGS=/nologo /EHsc
-LINKFLAGS=/subsystem:windows "user32.lib" /safeSEH /nxcompat /dynamicbase
-DEBUGFLAGS=/MTd /Zi /Fd$(OUT)d.pdb /Fe$(OUT)d.exe
-RELEASEFLAGS=/MT /Fd$(OUT).pdb /Fe$(OUT).exe
+DBGDIR=dbg
+RELDIR=rel
+
+DBG_OBJ=$(DBGDIR)\wvt.obj $(DBGDIR)\wvtWin.obj
+REL_OBJ=$(RELDIR)\wvt.obj $(RELDIR)\wvtWin.obj
+
+CFLAGS=/nologo /EHsc /c
+LINKFLAGS=/nologo /subsystem:windows "user32.lib" /safeSEH /nxcompat /dynamicbase
+DEBUGFLAGS=/MTd /Zi 
+RELEASEFLAGS=/MT 
 
 all: debug release
 
 debug: $(OUT)d.exe
 
+$(OUT)d.exe: $(DBG_OBJ)
+	link $(DBG_OBJ) $(LINKFLAGS) /pdb:$(OUT)d.pdb /out:$(OUT)d.exe
+
+{./}.cpp{$(DBGDIR)}.obj:
+	cl $< /Fo$@ $(CFLAGS) $(DEBUGFLAGS)
+
 release: $(OUT).exe
 
-$(OUT)d.exe: wvt.cpp
-	cl wvt.cpp $(CFLAGS) $(DEBUGFLAGS) /link $(LINKFLAGS)
+$(OUT).exe: $(REL_OBJ)
+	link $(REL_OBJ) $(LINKFLAGS) /pdb:$(OUT).pdb /out:$(OUT).exe
 
-$(OUT).exe: wvt.cpp
-	cl wvt.cpp $(CFLAGS) $(RELEASEFLAGS) /link $(LINKFLAGS)
+{./}.cpp{$(RELDIR)}.obj:
+	cl $< /Fo$@ $(CFLAGS) $(RELEASEFLAGS)
 
 clean:
-	erase $(OUT).exe $(OUT)d.exe
+	erase $(OUT).exe $(OUT)d.exe $(DBG_OBJ) $(REL_OBJ)

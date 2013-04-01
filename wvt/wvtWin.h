@@ -1,5 +1,5 @@
 /*
- * wvt.cpp - windows terminal emulator
+ * wvtWin.h - windows terminal emulator
  *
  * Copyright (c) 2013 Joseph M DeLiso
  *
@@ -19,49 +19,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#pragma once
+
 #include <Windows.h>
 
-#include <cassert>
-#include <iostream>
-#include <fstream>
-
 #include "wvt.h"
-#include "wvtWin.h"
 
-int CALLBACK WinMain(
-  HINSTANCE hInstance,
-  HINSTANCE hPrevInstance,
-  LPSTR lpCmdLine,
-  int nCmdShow) {
-    UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
+class wvtWin {
+  HINSTANCE hInstance;
 
-    if(debugging()) {
-      BOOL allocOk = AllocConsole();
-      assert(allocOk);
+public:
 
-      std::ofstream conOut("con");
-      conOut << "DEBUGGING: ON";
-      conOut.close();
-    }
+  wvtWin(HINSTANCE inst) {
+    hInstance = inst;
+  }
 
-    wvtWin* win = new wvtWin(hInstance);
+  void messageLoop();
+  BOOL registerWindowClass();
+  BOOL createMainWindow(int nCmdShow);
 
-    if( win->registerWindowClass() &&
-      win->createMainWindow(nCmdShow) ) {
-        win->messageLoop();
-    } else {
-      return EXIT_FAILURE;
-    }
+  static LRESULT CALLBACK windowProcedure(HWND hwnd, UINT uint, WPARAM wParam, LPARAM lParam);
 
-    delete win;
-    return EXIT_SUCCESS;
-}
-
-BOOL debugging() {
-#ifdef _DEBUG
-  return true;
-#else
-  return false;
-#endif
-}
+  static const TCHAR windowClassName[];
+  static const  TCHAR windowTitleName[];
+  static const int windowInitialWidth;
+  static const int windowInitialHeight;
+};

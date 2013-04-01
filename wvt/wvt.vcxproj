@@ -89,9 +89,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="wvt.cpp" />
+    <ClCompile Include="wvtWin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile.win32" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="wvt.h" />
+    <ClInclude Include="wvtWin.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
