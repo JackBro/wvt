@@ -27,8 +27,8 @@
 
 #include "wvtWin.h"
 
-const TCHAR wvtWin::windowClassName[] = TEXT("testClass");
-const TCHAR wvtWin::windowTitleName[] = TEXT("testTitle");
+const TCHAR wvtWin::windowClassName[] = TEXT("wvtClass");
+const TCHAR wvtWin::windowTitleName[] = TEXT("wvt");
 const int wvtWin::windowInitialWidth = 512;
 const int wvtWin::windowInitialHeight = 316;
 
