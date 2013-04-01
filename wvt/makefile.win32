@@ -1,0 +1,12 @@
+debug: wvtd.exe
+
+wvtd.exe: wvt.cpp
+	cl wvt.cpp /nologo /Zi /MTd /Fdwvtd.pdb /Fewvtd.exe
+
+release: wvt.exe
+
+wvt.exe: wvt.cpp
+	cl wvt.cpp /nologo /MT /Fdwvt.pdb /Fewvt.exe
+
+clean:
+	erase wvtd.exe wvt.exe
