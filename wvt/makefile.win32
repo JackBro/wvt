@@ -1,3 +1,6 @@
+# makefile.win32 - wvt terminal emulator makefile
+# TODO: clean this up
+
 debug: wvtd.exe
 
 wvtd.exe: wvt.cpp

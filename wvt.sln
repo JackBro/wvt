@@ -1,5 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# wvt solution file - do not edit
 # Visual Studio Express 2012 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wvt", "wvt\wvt.vcxproj", "{AB3DF50D-0294-4BB1-B0A0-83D160C7050E}"
 EndProject
