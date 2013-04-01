@@ -25,6 +25,7 @@
 #include <iostream>
 #include <fstream>
 
+#include "wvt.h"
 #include "wvtWin.h"
 
 const TCHAR wvtWin::windowClassName[] = TEXT("wvtClass");

@@ -21,6 +21,4 @@
 
 #pragma once
 
-#include <Windows.h>
-
 extern "C" BOOL debugging();
