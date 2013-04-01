@@ -3,7 +3,9 @@ wvt
 
 windows terminal emulator
 
-note: currently builds with VS2012 Desktop only, but will work with VS2010 soon
+note: currently .sln is in vs2012 format but I will downgrade it to 2010 soon.
+
+until then you can still use the makefile, which is portable accross vs versions.
 
 -----
 goals: 
