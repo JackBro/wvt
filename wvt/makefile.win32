@@ -1,12 +1,12 @@
 debug: wvtd.exe
 
 wvtd.exe: wvt.cpp
-	cl wvt.cpp /nologo /Zi /MTd /EHsc /Fdwvtd.pdb /Fewvtd.exe /link /subsystem:windows "user32.lib"
+	cl wvt.cpp /nologo /Zi /MTd /EHsc /Fdwvtd.pdb /Fewvtd.exe  /link /subsystem:windows "user32.lib" /debug /safeSEH /nxcompat /dynamicbase
 
 release: wvt.exe
 
 wvt.exe: wvt.cpp
-	cl wvt.cpp /nologo /MT /EHsc /Fdwvt.pdb /Fewvt.exe /link /subsystem:windows "user32.lib"
+	cl wvt.cpp /nologo /MT /EHsc /Fdwvt.pdb /Fewvt.exe /link /subsystem:windows "user32.lib" /release /safeSEH /nxcompat /dynamicbase
 
 clean:
 	erase wvtd.exe wvt.exe
