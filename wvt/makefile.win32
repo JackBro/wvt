@@ -1,15 +1,19 @@
 # makefile.win32 - wvt terminal emulator makefile
 # TODO: clean this up
 
-debug: wvtd.exe
+LINKFLAGS=/subsystem:windows "user32.lib" /safeSEH /nxcompat /dynamicbase
 
-wvtd.exe: wvt.cpp
-	cl wvt.cpp /nologo /Zi /MTd /EHsc /Fdwvtd.pdb /Fewvtd.exe  /link /subsystem:windows "user32.lib" /debug /safeSEH /nxcompat /dynamicbase
+all: debug release
+
+debug: wvtd.exe
 
 release: wvt.exe
 
+wvtd.exe: wvt.cpp
+	cl wvt.cpp /nologo /Zi /MTd /EHsc /Fdwvtd.pdb /Fewvtd.exe  /link $(LINKFLAGS)
+
 wvt.exe: wvt.cpp
-	cl wvt.cpp /nologo /MT /EHsc /Fdwvt.pdb /Fewvt.exe /link /subsystem:windows "user32.lib" /release /safeSEH /nxcompat /dynamicbase
+	cl wvt.cpp /nologo /MT /EHsc /Fdwvt.pdb /Fewvt.exe /link $(LINKFLAGS)
 
 clean:
 	erase wvtd.exe wvt.exe
