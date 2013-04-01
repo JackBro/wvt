@@ -5,7 +5,7 @@ windows terminal emulator
 
 note: currently .sln is in vs2012 format but I will downgrade it to 2010 soon.
 
-until then you can still use the makefile, which is portable accross vs versions.
+until then you can still use the makefile, which is portable across vs versions.
 
 -----
 goals: 
