@@ -10,6 +10,19 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE" />
+    <None Include="..\README.md" />
+    <None Include="makefile.win32" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="wvt.cpp" />
+    <ClCompile Include="wvtWin.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="wvt.h" />
+    <ClInclude Include="wvtWin.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <Keyword>MakeFileProj</Keyword>
   </PropertyGroup>
@@ -46,19 +59,6 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="wvt\wvt.cpp" />
-    <ClCompile Include="wvt\wvtWin.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="wvt\wvt.h" />
-    <ClInclude Include="wvt\wvtWin.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="LICENSE" />
-    <None Include="README.md" />
-    <None Include="wvt\makefile.win32" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
