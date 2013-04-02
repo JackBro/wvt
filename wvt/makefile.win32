@@ -14,8 +14,8 @@ LINKFLAGS=/nologo /subsystem:windows "user32.lib" /WX /safeSEH /nxcompat /dynami
 DBG_CFLAGS=/MTd /Zi
 REL_CFLAGS=/MT /GL /Ox
 
-DBG_LINKFLAGS=/pdb:$(OUT)d.pdb /out:$(OUT)d.exe
-REL_LINKFLAGS=/LTCG /pdb:$(OUT).pdb /out:$(OUT).exe
+DBG_LINKFLAGS=/debug /pdb:$(OUT)d.pdb /out:$(OUT)d.exe
+REL_LINKFLAGS=/LTCG /out:$(OUT).exe
 
 all: debug release
 
