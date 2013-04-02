@@ -41,7 +41,7 @@ int CALLBACK WinMain(
       assert(allocOk);
 
       std::ofstream conOut("con");
-      conOut << "DEBUGGING: ON";
+      conOut << "DEBUGGING: ON" << std::endl;
       conOut.close();
     }
 
