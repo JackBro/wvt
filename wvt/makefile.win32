@@ -10,10 +10,12 @@ DBG_OBJ=$(DBGDIR)\wvt.obj $(DBGDIR)\wvtWin.obj
 REL_OBJ=$(RELDIR)\wvt.obj $(RELDIR)\wvtWin.obj
 
 CFLAGS=/nologo /EHsc /c /W4 /WX
-LINKFLAGS=/nologo /subsystem:windows $(DEPS) /WX /safeSEH /nxcompat /dynamicbase
+LINKFLAGS=/nologo /subsystem:windows /machine:X86\
+  /WX /safeSEH /nxcompat /dynamicbase\
+  $(DEPS)
 
 DBG_CFLAGS=/MTd /Zi
-REL_CFLAGS=/MT /GL /Ox
+REL_CFLAGS=/MT /GA /GL /Ox
 
 DBG_LINKFLAGS=/debug /pdb:$(OUT)d.pdb /out:$(OUT)d.exe
 REL_LINKFLAGS=/LTCG /out:$(OUT).exe
