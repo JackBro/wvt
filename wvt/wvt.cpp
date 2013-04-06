@@ -35,9 +35,11 @@
 #include "wvt.h"
 #include "wvtWin.h"
 
-#define SCREAM_AND_DIE(msg) do { __screamAndDie(__FILE__, __LINE__, msg); } while( true );
+#define SCREAM_AND_DIE(msg) { __screamAndDie(__FILE__, __LINE__, msg); }
 
 void __screamAndDie(const char* file, const int line, const char* userMessage);
+
+LONG WINAPI crashHandler(EXCEPTION_POINTERS * exceptionInfo);
 
 int CALLBACK WinMain(
   HINSTANCE hInstance,
@@ -47,6 +49,7 @@ int CALLBACK WinMain(
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
+    /* allocate a console if we're debugging */
     if(debugging()) {
       BOOL allocOk = AllocConsole();
       assert(allocOk);
@@ -56,6 +59,10 @@ int CALLBACK WinMain(
       conOut.close();
     }
 
+    /* install unfiltered exception handler to try and produce better crash data */
+    SetUnhandledExceptionFilter(crashHandler);
+
+    /* create top-level win and loop */
     wvtWin* win = new wvtWin(hInstance);
 
     if( win->registerWindowClass() &&
@@ -65,10 +72,12 @@ int CALLBACK WinMain(
       return EXIT_FAILURE;
     }
 
+    /* clean up & exit */
     delete win;
     return EXIT_SUCCESS;
 }
 
+/* a little utility function that returns true if this is a debug build */
 BOOL debugging() {
 #ifdef _DEBUG
   return true;
@@ -131,4 +140,12 @@ void __screamAndDie(const char* file, const int line, const char* userMessage) {
 
   /* die */
   ExitProcess(errCode);
+}
+
+LONG WINAPI crashHandler(EXCEPTION_POINTERS * exceptionInfo) {
+  (void) exceptionInfo;
+
+  SCREAM_AND_DIE("caught unfiltered exception");
+
+  return 0;
 }
