@@ -142,6 +142,7 @@ void __screamAndDie(const char* file, const int line, const char* userMessage) {
   ExitProcess(errCode);
 }
 
+#pragma warning( suppress: 4702 ) /* for suppressing dead code warning in release mode */
 LONG WINAPI crashHandler(EXCEPTION_POINTERS * exceptionInfo) {
   (void) exceptionInfo;
 
