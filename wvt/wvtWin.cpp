@@ -19,6 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#ifndef UNICODE
+#define UNICODE
+#endif
+
 #include <Windows.h>
 
 #include <cassert>

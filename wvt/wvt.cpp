@@ -19,14 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#ifndef UNICODE
+#define UNICODE
+#endif
+
 #include <Windows.h>
 
 #include <cassert>
 #include <iostream>
 #include <fstream>
 
+#include <sstream>
+#include <string>
+
 #include "wvt.h"
 #include "wvtWin.h"
+
+#define SCREAM_AND_DIE(msg) do { __screamAndDie(__FILE__, __LINE__, msg); } while( true );
+
+void __screamAndDie(const char* file, const int line, const char* userMessage);
 
 int CALLBACK WinMain(
   HINSTANCE hInstance,
@@ -64,4 +75,60 @@ BOOL debugging() {
 #else
   return false;
 #endif
+}
+
+/* this function should be called immediately following the failure indicating
+* return code of a win32 api function. it will create a messagebox with as 
+* detailed of a description of the error as possible. you shouldn't call this
+* function directly, but should use the provided macro instead so that the
+* message includes source information. see SCREAM_AND_DIE(msg). */
+void __screamAndDie(const char* file, const int line, const char* userMessage) {
+  static const int MAX_ERR_MSG_LEN = 1024;
+  std::wstringstream errStream;
+  LPTSTR sysErrMsg;
+
+  /* prolog in error message lifted from macros */
+  errStream 
+    << "in " << file 
+    << " at line " << line 
+    << " : " << userMessage 
+    << " | ";
+
+  /* it doesn't make sense to check this for failure */
+  DWORD errCode = GetLastError();
+
+  /* attempt to get windows to pretty-print the error code */
+  if(FormatMessage(
+    FORMAT_MESSAGE_ALLOCATE_BUFFER |
+    FORMAT_MESSAGE_FROM_SYSTEM |
+    FORMAT_MESSAGE_IGNORE_INSERTS,
+    NULL,
+    errCode,
+    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+    (LPTSTR)&sysErrMsg,
+    0, NULL ) == 0) {
+
+      /* couldn't retrieve system formatted error string */
+      errStream << "unspecified: " << errCode;
+
+  } else {
+    /* copy the pretty printed failure reason to the errStream */
+    errStream << sysErrMsg;
+
+    /* and return it to the heap */
+    if(LocalFree(sysErrMsg) != NULL) {
+      /* failed to free errMsgStr! */
+    }
+  }
+
+  /* allocate a buffer on the stack and write the stringstream back to it */
+  TCHAR errMsg[MAX_ERR_MSG_LEN];
+  memset(errMsg, '\0', sizeof(errMsg));
+  errStream.read(errMsg, sizeof(errMsg));
+
+  /* create the error messagebox (scream) */
+  MessageBox(NULL, errMsg, TEXT("FATAL"), MB_ICONERROR);
+
+  /* die */
+  ExitProcess(errCode);
 }
