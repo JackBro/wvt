@@ -35,10 +35,6 @@
 #include "wvt.h"
 #include "wvtWin.h"
 
-#define SCREAM_AND_DIE(msg) { __screamAndDie(__FILE__, __LINE__, msg); }
-
-void __screamAndDie(const char* file, const int line, const char* userMessage);
-
 LONG WINAPI crashHandler(EXCEPTION_POINTERS * exceptionInfo);
 
 int CALLBACK WinMain(
