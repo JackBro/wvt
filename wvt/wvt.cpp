@@ -147,5 +147,5 @@ LONG WINAPI crashHandler(EXCEPTION_POINTERS * exceptionInfo) {
 
   SCREAM_AND_DIE("caught unfiltered exception");
 
-  return 0;
+  return 0; /* NOTE: this never executes */
 }
