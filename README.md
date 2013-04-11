@@ -6,7 +6,13 @@ windows terminal emulator
 -----
 goals: 
 
-* be utterly minimalist (no CLR/ATL)
-* no external dependencies, just standard win32 libs (user32 and friends)
-* not suck
-* support resizing (along BOTH axes)
+* no external dependencies
+* support resizing
+* unicode support
+* color escape codes
+
+referenced projects:
+
+* ConEmu http://code.google.com/p/conemu-maximus5/
+* Console http://sourceforge.net/projects/console/
+* gvim http://www.vim.org/
