@@ -46,6 +46,7 @@ public:
   BOOL registerWindowClass();
   BOOL createMainWindow(int nCmdShow);
   void constructChildPane(const HWND hwnd);
+  void destroyChildPane();
 
   static LRESULT CALLBACK windowProcedure(HWND hwnd, UINT uint, WPARAM wParam, LPARAM lParam);
 

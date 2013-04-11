@@ -121,6 +121,16 @@ void wvtWin::constructChildPane(const HWND hwnd) {
    }
 }
 
+void wvtWin::destroyChildPane() {
+   assert(childPane != NULL);
+
+   if(DestroyWindow(childPane) == 0) {
+      /* TODO: signal error */
+   } else {
+      childPane = NULL;
+   }
+}
+
 LRESULT CALLBACK wvtWin::windowProcedure(
   HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
@@ -165,14 +175,15 @@ LRESULT CALLBACK wvtWin::windowProcedure(
       return 0;
 
     case WM_CLOSE:
+      assert(enclosingInst != NULL);
+
       if(!DestroyWindow(hwnd)) {
 
         /* TODO: signal error */
 
       } else {
 
-        /* destroy data */
-
+        enclosingInst->destroyChildPane();
         PostQuitMessage(EXIT_SUCCESS);
       }
 
