@@ -152,11 +152,13 @@ LRESULT CALLBACK wvtWin::windowProcedure(
 
     case WM_SIZE:
       if(enclosingInst != NULL && enclosingInst->retrieveChildPane() != NULL) {
-         MoveWindow(enclosingInst->retrieveChildPane(), 
+         if(MoveWindow(enclosingInst->retrieveChildPane(), 
             0, 0,
             LOWORD(lParam),
             HIWORD(lParam),
-            TRUE);
+            TRUE) == 0) {
+               SCREAM_AND_DIE("MoveWindow(... child ...) failed");
+         }
       }
       return 0;
 
