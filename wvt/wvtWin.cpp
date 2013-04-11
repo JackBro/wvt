@@ -37,6 +37,12 @@ const TCHAR wvtWin::windowTitleName[] = TEXT("wvt");
 const int wvtWin::windowInitialWidth = 512;
 const int wvtWin::windowInitialHeight = 316;
 
+wvtWin::wvtWin(HINSTANCE inst) {
+   hInstance = inst;
+   hwnd = NULL;
+   childPane = NULL;
+}
+
 void wvtWin::messageLoop() {
   MSG msg;
   BOOL bRet;
@@ -71,11 +77,11 @@ BOOL wvtWin::registerWindowClass() {
 }
 
 BOOL wvtWin::createMainWindow(int nCmdShow)  {
-  HWND hwnd = CreateWindowEx(
+  hwnd = CreateWindowEx(
     0,
     windowClassName,
     windowTitleName,
-    WS_OVERLAPPEDWINDOW,
+    WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
     CW_USEDEFAULT,
     CW_USEDEFAULT,
     windowInitialWidth,
@@ -83,7 +89,7 @@ BOOL wvtWin::createMainWindow(int nCmdShow)  {
     (HWND) NULL,
     (HMENU) NULL,
     hInstance,
-    (LPVOID) NULL);
+    (LPVOID) this);
 
   if (!hwnd) {
     return FALSE;
@@ -95,8 +101,28 @@ BOOL wvtWin::createMainWindow(int nCmdShow)  {
   return TRUE;
 }
 
+void wvtWin::constructChildPane(const HWND hwnd) {
+   assert(childPane == NULL);
+   assert(hwnd != NULL);
+
+   childPane = CreateWindowEx(
+      WS_EX_ACCEPTFILES | WS_EX_CLIENTEDGE | WS_EX_TOPMOST,
+      TEXT("Edit"),
+      NULL,
+      WS_CHILD | WS_VSCROLL | WS_VISIBLE | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL,
+      0, 0, 0, 0,
+      hwnd,
+      NULL,
+      getInstance(),
+      this );
+
+   assert(childPane != NULL);
+}
+
 LRESULT CALLBACK wvtWin::windowProcedure(
   HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+
+    static wvtWin* enclosingInst = NULL;
 
     if(debugging()) {
       std::ofstream conOut("con");
@@ -108,15 +134,31 @@ LRESULT CALLBACK wvtWin::windowProcedure(
     case WM_CREATE:
       /* initialize data */
 
-      /* create widgets */
+      assert(enclosingInst == NULL);
+      enclosingInst = (wvtWin*) ((CREATESTRUCT*)lParam)->lpCreateParams;
+      assert(enclosingInst != NULL);
 
-      return DefWindowProc(hwnd, msg, wParam, lParam);
+      /* create widgets. note: WM_CREATE is sent before CreateWindowEx returns, so we must
+       * pass hwnd here, too */
+      enclosingInst->constructChildPane(hwnd);
 
-    case WM_PAINT:
+      if(debugging()) {
+         std::ofstream conOut("con");
+         conOut << "CREATE " << msg << std::endl;
+         conOut.close();
+      }
 
-      /* draw widgets */
+      return 0;
 
-      return DefWindowProc(hwnd, msg, wParam, lParam);
+    case WM_SIZE:
+      if(enclosingInst != NULL && enclosingInst->retrieveChildPane() != NULL) {
+         MoveWindow(enclosingInst->retrieveChildPane(), 
+            0, 0,
+            LOWORD(lParam),
+            HIWORD(lParam),
+            TRUE);
+      }
+      return 0;
 
     case WM_CLOSE:
       if(!DestroyWindow(hwnd)) {
