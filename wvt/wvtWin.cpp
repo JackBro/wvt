@@ -91,8 +91,8 @@ BOOL wvtWin::createMainWindow(int nCmdShow)  {
     hInstance,
     (LPVOID) this);
 
-  if (!hwnd) {
-    return FALSE;
+  if (hwnd == NULL) {
+    SCREAM_AND_DIE("CreateWindowEx(... root ...) failed");
   }
 
   ShowWindow(hwnd, nCmdShow);
