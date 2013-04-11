@@ -116,7 +116,9 @@ void wvtWin::constructChildPane(const HWND hwnd) {
       getInstance(),
       this );
 
-   assert(childPane != NULL);
+   if(childPane == NULL) {
+      SCREAM_AND_DIE("CreateWindowEx(... child ...) failed");
+   }
 }
 
 LRESULT CALLBACK wvtWin::windowProcedure(
