@@ -17,10 +17,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wvt.cpp" />
+    <ClCompile Include="wvtMainWin.cpp" />
     <ClCompile Include="wvtWin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wvt.h" />
+    <ClInclude Include="wvtMainWin.h" />
     <ClInclude Include="wvtWin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

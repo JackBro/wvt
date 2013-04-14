@@ -33,7 +33,7 @@
 #include <string>
 
 #include "wvt.h"
-#include "wvtWin.h"
+#include "wvtMainWin.h"
 
 LONG WINAPI crashHandler(EXCEPTION_POINTERS * exceptionInfo);
 
@@ -60,7 +60,7 @@ int CALLBACK WinMain(
     SetUnhandledExceptionFilter(crashHandler);
 
     /* create top-level win and loop */
-    wvtWin win(hInstance);
+    wvtMainWin win(hInstance);
 
     if( win.init() ) {
         win.loop();

@@ -6,8 +6,8 @@ OUT=wvt
 DBGDIR=Debug
 RELDIR=Release
 
-DBG_OBJ=$(DBGDIR)\wvt.obj $(DBGDIR)\wvtWin.obj
-REL_OBJ=$(RELDIR)\wvt.obj $(RELDIR)\wvtWin.obj
+DBG_OBJ=$(DBGDIR)\wvt.obj $(DBGDIR)\wvtWin.obj $(DBGDIR)\wvtMainWin.obj
+REL_OBJ=$(RELDIR)\wvt.obj $(RELDIR)\wvtWin.obj $(RELDIR)\wvtMainWin.obj
 
 CFLAGS=/nologo /EHsc /c /W4 /WX
 LINKFLAGS=/nologo /subsystem:windows /machine:X86\
