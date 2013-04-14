@@ -35,7 +35,7 @@ class wvtMainWin : public wvtWin {
   void destroyChildPane();
 
   HWND retrieveChildPane() const {
-     return childPane;
+    return childPane;
   }
 
 public:

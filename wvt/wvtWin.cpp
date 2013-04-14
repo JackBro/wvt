@@ -25,14 +25,10 @@
 
 #include <Windows.h>
 
-#include <cassert>
-#include <iostream>
-#include <fstream>
-
 #include "wvt.h"
 #include "wvtWin.h"
 
 wvtWin::wvtWin(HINSTANCE inst) {
-   hInstance = inst;
-   hwnd = NULL;
+  hInstance = inst;
+  hwnd = NULL;
 }

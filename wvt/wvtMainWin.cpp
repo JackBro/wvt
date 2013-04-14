@@ -40,11 +40,11 @@ const int wvtMainWin::windowInitialHeight = 316;
 /* public methods */
 
 wvtMainWin::wvtMainWin(HINSTANCE inst) : wvtWin(inst) {
-   childPane = NULL;
+  childPane = NULL;
 }
 
 BOOL wvtMainWin::init() {
-   return registerWindowClass() && createMainWindow(SW_SHOW);
+  return registerWindowClass() && createMainWindow(SW_SHOW);
 }
 
 void wvtMainWin::loop() {
@@ -82,7 +82,7 @@ BOOL wvtMainWin::registerWindowClass() {
   return RegisterClassEx(&wcx);
 }
 
-BOOL wvtMainWin::createMainWindow(const int nCmdShow)  {
+BOOL wvtMainWin::createMainWindow(const int nCmdShow) {
   hwnd = CreateWindowEx(
     0,
     windowClassName,
@@ -108,47 +108,47 @@ BOOL wvtMainWin::createMainWindow(const int nCmdShow)  {
 }
 
 void wvtMainWin::constructChildPane(const HWND hwnd) {
-   assert(childPane == NULL);
-   assert(hwnd != NULL);
+  assert(childPane == NULL);
+  assert(hwnd != NULL);
 
-   childPane = CreateWindowEx(
-      WS_EX_ACCEPTFILES | WS_EX_CLIENTEDGE | WS_EX_TOPMOST,
-      TEXT("Edit"),
-      NULL,
-      WS_CHILD | WS_VSCROLL | WS_VISIBLE | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL,
-      0, 0, 0, 0,
-      hwnd,
-      NULL,
-      hInstance,
-      this );
+  childPane = CreateWindowEx(
+    WS_EX_ACCEPTFILES | WS_EX_CLIENTEDGE | WS_EX_TOPMOST,
+    TEXT("Edit"),
+    NULL,
+    WS_CHILD | WS_VSCROLL | WS_VISIBLE | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL,
+    0, 0, 0, 0,
+    hwnd,
+    NULL,
+    hInstance,
+    this );
 
-   if(childPane == NULL) {
-      SCREAM_AND_DIE("CreateWindowEx(... child ...) failed");
-   }
+  if(childPane == NULL) {
+    SCREAM_AND_DIE("CreateWindowEx(... child ...) failed");
+  }
 }
 
 void wvtMainWin::destroyChildPane() {
-   assert(childPane != NULL);
+  assert(childPane != NULL);
 
-   if(DestroyWindow(childPane) == 0) {
-      /* TODO: signal error */
-   } else {
-      childPane = NULL;
-   }
+  if(DestroyWindow(childPane) == 0) {
+    /* TODO: signal error */
+  } else {
+    childPane = NULL;
+  }
 }
 
 LRESULT CALLBACK wvtMainWin::windowProcedure(
   HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
-    static wvtMainWin* enclosingInst = NULL;
+  static wvtMainWin* enclosingInst = NULL;
 
-    if(debugging()) {
-      std::ofstream conOut("con");
-      conOut << "event " << msg << std::endl;
-      conOut.close();
-    }
+  if(debugging()) {
+    std::ofstream conOut("con");
+    conOut << "event " << msg << std::endl;
+    conOut.close();
+  }
 
-    switch(msg) {
+  switch(msg) {
     case WM_CREATE:
       /* initialize data */
 
@@ -161,22 +161,22 @@ LRESULT CALLBACK wvtMainWin::windowProcedure(
       enclosingInst->constructChildPane(hwnd);
 
       if(debugging()) {
-         std::ofstream conOut("con");
-         conOut << "CREATE " << msg << std::endl;
-         conOut.close();
+        std::ofstream conOut("con");
+        conOut << "CREATE " << msg << std::endl;
+        conOut.close();
       }
 
       return 0;
 
     case WM_SIZE:
       if(enclosingInst != NULL && enclosingInst->retrieveChildPane() != NULL) {
-         if(MoveWindow(enclosingInst->retrieveChildPane(), 
-            0, 0,
-            LOWORD(lParam),
-            HIWORD(lParam),
-            TRUE) == 0) {
-               SCREAM_AND_DIE("MoveWindow(... child ...) failed");
-         }
+        if(MoveWindow(enclosingInst->retrieveChildPane(),
+          0, 0,
+          LOWORD(lParam),
+          HIWORD(lParam),
+          TRUE) == 0) {
+            SCREAM_AND_DIE("MoveWindow(... child ...) failed");
+        }
       }
       return 0;
 
@@ -184,11 +184,8 @@ LRESULT CALLBACK wvtMainWin::windowProcedure(
       assert(enclosingInst != NULL);
 
       if(!DestroyWindow(hwnd)) {
-
         /* TODO: signal error */
-
       } else {
-
         enclosingInst->destroyChildPane();
         PostQuitMessage(EXIT_SUCCESS);
       }
@@ -197,5 +194,5 @@ LRESULT CALLBACK wvtMainWin::windowProcedure(
 
     default:
       return DefWindowProc(hwnd, msg, wParam, lParam);
-    }
+  }
 }

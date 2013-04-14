@@ -62,8 +62,8 @@ int CALLBACK WinMain(
     /* create top-level win and loop */
     wvtMainWin win(hInstance);
 
-    if( win.init() ) {
-        win.loop();
+    if(win.init()) {
+      win.loop();
     } else {
       return EXIT_FAILURE;
     }
@@ -81,7 +81,7 @@ BOOL debugging() {
 }
 
 /* this function should be called immediately following the failure indicating
-* return code of a win32 api function. it will create a messagebox with as 
+* return code of a win32 api function. it will create a messagebox with as
 * detailed of a description of the error as possible. you shouldn't call this
 * function directly, but should use the provided macro instead so that the
 * message includes source information. see SCREAM_AND_DIE(msg). */
@@ -91,10 +91,10 @@ void __screamAndDie(const char* file, const int line, const char* userMessage) {
   LPTSTR sysErrMsg;
 
   /* prolog in error message lifted from macros */
-  errStream 
-    << "in " << file 
-    << " at line " << line 
-    << " : " << userMessage 
+  errStream
+    << "in " << file
+    << " at line " << line
+    << " : " << userMessage
     << " | ";
 
   /* it doesn't make sense to check this for failure */

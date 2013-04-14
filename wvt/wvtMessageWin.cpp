@@ -82,7 +82,7 @@ wvtMessageWin::wvtMessageWin(HINSTANCE inst) : wvtWin(inst) {
 }
 
 BOOL wvtMessageWin::init() {
-   return registerWindowClass() && createMessageWindow();
+  return registerWindowClass() && createMessageWindow();
 }
 
 void wvtMessageWin::loop() {
