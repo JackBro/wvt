@@ -1,5 +1,5 @@
 /*
- * wvtMainWin.h - windows terminal emulator
+ * wvtMessageWin.h - windows terminal emulator
  *
  * Copyright (c) 2013 Joseph M DeLiso
  *
@@ -25,29 +25,19 @@
 
 #include "wvt.h"
 #include "wvtWin.h"
+#include "wvtMessageWin.h"
 
-class wvtMainWin : public wvtWin {
-  HWND childPane;
+class wvtMessageWin : public wvtWin {
 
   BOOL registerWindowClass();
-  BOOL createMainWindow(const int nCmdShow);
-  void constructChildPane(const HWND hwnd);
-  void destroyChildPane();
-
-  HWND retrieveChildPane() const {
-     return childPane;
-  }
-
+  BOOL createMessageWindow();
+  
 public:
 
-  wvtMainWin(HINSTANCE inst);
+  wvtMessageWin(HINSTANCE inst);
   BOOL init();
   void loop();
 
-  static const TCHAR wvtMainWin::windowClassName[];
-  static const TCHAR wvtMainWin::windowTitleName[];
-  static const int wvtMainWin::windowInitialWidth;
-  static const int wvtMainWin::windowInitialHeight;
-
+  static const TCHAR messageWindowClassName[];
   static LRESULT CALLBACK windowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 };

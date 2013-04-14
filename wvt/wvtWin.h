@@ -26,6 +26,7 @@
 #include "wvt.h"
 
 class wvtWin {
+protected:
   HINSTANCE hInstance;
   HWND hwnd;
 
