@@ -23,6 +23,10 @@
 
 #define SCREAM_AND_DIE(msg) { __screamAndDie(__FILE__, __LINE__, msg); }
 
-extern "C" BOOL debugging();
+extern "C" {
 
-extern "C" void __screamAndDie(const char* file, const int line, const char* userMessage);
+   BOOL debugging();
+
+   void __screamAndDie(const char* file, const int line, const char* userMessage);
+
+}
