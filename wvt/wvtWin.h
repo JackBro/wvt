@@ -34,4 +34,8 @@ public:
   wvtWin(HINSTANCE inst);
   virtual BOOL init() = 0;
   virtual void loop() = 0;
+
+  HWND getHWND() const {
+    return hwnd;
+  }
 };

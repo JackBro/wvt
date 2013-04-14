@@ -64,6 +64,7 @@ int CALLBACK WinMain(
     /* declare message win and thread handle */
     wvtMessageWin mesgWin(hInstance);
     HANDLE mesgThreadHandle;
+    DWORD mesgThreadId;
 
     /* create message win thread */
     if((mesgThreadHandle = CreateThread(
@@ -72,7 +73,7 @@ int CALLBACK WinMain(
       mesgThread,
       &mesgWin,
       0,
-      NULL)) == NULL) {
+      &mesgThreadId)) == NULL) {
         SCREAM_AND_DIE("CreateThread(... mesgThread ...)");
     }
 
@@ -84,6 +85,11 @@ int CALLBACK WinMain(
     } else {
       return EXIT_FAILURE;
     }
+
+    LRESULT msgResult = PostMessage(mesgWin.getHWND(), WM_CLOSE, 0, 0);
+
+    /* TODO: examine this */
+    (void) msgResult;
 
     /* wait for message thread */
     if(WaitForSingleObject(mesgThreadHandle, INFINITE)

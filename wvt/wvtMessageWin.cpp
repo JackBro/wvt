@@ -101,6 +101,17 @@ void wvtMessageWin::loop() {
 
 LRESULT CALLBACK wvtMessageWin::windowProcedure(
   HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+    switch(msg) {
+      case WM_CLOSE:
+        if(!DestroyWindow(hwnd)) {
+           /* TODO: signal error */
+        } else {
+          PostQuitMessage(EXIT_SUCCESS);
+        }
 
-   return DefWindowProc(hwnd, msg, wParam, lParam);
+        return 0;
+
+      default:
+        return DefWindowProc(hwnd, msg, wParam, lParam);
+    }
 }
