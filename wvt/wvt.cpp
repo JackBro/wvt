@@ -44,6 +44,7 @@ int CALLBACK WinMain(
   int nCmdShow) {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
+    UNREFERENCED_PARAMETER(nCmdShow);
 
     /* allocate a console if we're debugging */
     if(debugging()) {
@@ -59,17 +60,14 @@ int CALLBACK WinMain(
     SetUnhandledExceptionFilter(crashHandler);
 
     /* create top-level win and loop */
-    wvtWin* win = new wvtWin(hInstance);
+    wvtWin win(hInstance);
 
-    if( win->registerWindowClass() &&
-      win->createMainWindow(nCmdShow) ) {
-        win->messageLoop();
+    if( win.init() ) {
+        win.loop();
     } else {
       return EXIT_FAILURE;
     }
 
-    /* clean up & exit */
-    delete win;
     return EXIT_SUCCESS;
 }
 

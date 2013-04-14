@@ -30,23 +30,24 @@ class wvtWin {
   HWND hwnd;
   HWND childPane;
 
-public:
+  HWND retrieveChildPane() const {
+     return childPane;
+  }
 
-  wvtWin(HINSTANCE inst);
+  BOOL registerWindowClass();
+  BOOL createMainWindow(int nCmdShow);
+  void constructChildPane(const HWND hwnd);
+  void destroyChildPane();
 
   HINSTANCE getInstance() const {
      return hInstance;
   }
 
-  HWND retrieveChildPane() const {
-     return childPane;
-  }
+public:
 
-  void messageLoop();
-  BOOL registerWindowClass();
-  BOOL createMainWindow(int nCmdShow);
-  void constructChildPane(const HWND hwnd);
-  void destroyChildPane();
+  wvtWin(HINSTANCE inst);
+  BOOL init();
+  void loop();
 
   static LRESULT CALLBACK windowProcedure(HWND hwnd, UINT uint, WPARAM wParam, LPARAM lParam);
 

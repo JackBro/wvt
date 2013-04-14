@@ -37,13 +37,19 @@ const TCHAR wvtWin::windowTitleName[] = TEXT("wvt");
 const int wvtWin::windowInitialWidth = 512;
 const int wvtWin::windowInitialHeight = 316;
 
+/* public methods */
+
 wvtWin::wvtWin(HINSTANCE inst) {
    hInstance = inst;
    hwnd = NULL;
    childPane = NULL;
 }
 
-void wvtWin::messageLoop() {
+BOOL wvtWin::init() {
+   return registerWindowClass() && createMainWindow(SW_SHOW);
+}
+
+void wvtWin::loop() {
   MSG msg;
   BOOL bRet;
 
@@ -56,6 +62,8 @@ void wvtWin::messageLoop() {
     }
   }
 }
+
+/* private methods */
 
 BOOL wvtWin::registerWindowClass() {
   WNDCLASSEX wcx;
