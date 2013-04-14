@@ -84,7 +84,7 @@ BOOL wvtWin::registerWindowClass() {
   return RegisterClassEx(&wcx);
 }
 
-BOOL wvtWin::createMainWindow(int nCmdShow)  {
+BOOL wvtWin::createMainWindow(const int nCmdShow)  {
   hwnd = CreateWindowEx(
     0,
     windowClassName,
