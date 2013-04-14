@@ -34,7 +34,9 @@
 
 #include "wvt.h"
 #include "wvtMainWin.h"
+#include "wvtMessageWin.h"
 
+DWORD WINAPI mesgThread(LPVOID lpParam);
 LONG WINAPI crashHandler(EXCEPTION_POINTERS * exceptionInfo);
 
 int CALLBACK WinMain(
@@ -59,6 +61,21 @@ int CALLBACK WinMain(
     /* install unfiltered exception handler to try and produce better crash data */
     SetUnhandledExceptionFilter(crashHandler);
 
+    /* declare message win and thread handle */
+    wvtMessageWin mesgWin(hInstance);
+    HANDLE mesgThreadHandle;
+
+    /* create message win thread */
+    if((mesgThreadHandle = CreateThread(
+      NULL,
+      0,
+      mesgThread,
+      &mesgWin,
+      0,
+      NULL)) == NULL) {
+        SCREAM_AND_DIE("CreateThread(... mesgThread ...)");
+    }
+
     /* create top-level win and loop */
     wvtMainWin win(hInstance);
 
@@ -68,7 +85,23 @@ int CALLBACK WinMain(
       return EXIT_FAILURE;
     }
 
+    /* wait for message thread */
+    if(WaitForSingleObject(mesgThreadHandle, INFINITE)
+      != WAIT_OBJECT_0) {
+        SCREAM_AND_DIE("WaitForSingleObject");
+    }
+
     return EXIT_SUCCESS;
+}
+
+DWORD WINAPI mesgThread(LPVOID lpParam) {
+  wvtMessageWin* mesgWinPtr = (wvtMessageWin*) lpParam;
+
+  if(mesgWinPtr->init()) {
+    mesgWinPtr->loop();
+  }
+
+  return 0;
 }
 
 /* a little utility function that returns true if this is a debug build */
