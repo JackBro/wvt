@@ -38,14 +38,14 @@ BOOL wvtMessageWin::registerWindowClass() {
   WNDCLASSEX wcx;
 
   wcx.cbSize = sizeof(wcx);
-  wcx.style = CS_HREDRAW | CS_VREDRAW;
+  wcx.style = 0;
   wcx.lpfnWndProc = windowProcedure;
   wcx.cbClsExtra = 0;
   wcx.cbWndExtra = 0;
   wcx.hInstance = hInstance;
-  wcx.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-  wcx.hCursor = LoadCursor(NULL, IDC_ARROW);
-  wcx.hbrBackground = (HBRUSH) (COLOR_WINDOW + 1);
+  wcx.hIcon = NULL;
+  wcx.hCursor = NULL;
+  wcx.hbrBackground = NULL;
   wcx.lpszMenuName =  NULL;
   wcx.lpszClassName = messageWindowClassName;
   wcx.hIconSm = NULL;
