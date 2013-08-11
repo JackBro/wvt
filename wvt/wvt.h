@@ -21,7 +21,9 @@
 
 #pragma once
 
-#define SCREAM_AND_DIE(msg) { __screamAndDie(__FILE__, __LINE__, msg); }
+#pragma warning( disable: 4127 )
+
+#define SCREAM_AND_DIE(msg) do { __screamAndDie(__FILE__, __LINE__, msg); } while(0)
 
 extern "C" {
   BOOL debugging();
