@@ -1,0 +1,40 @@
+# makefile.win64 - wvt terminal emulator makefile
+
+DEPS="user32.lib" "userenv.lib"
+OUT=wvt64
+
+DBGDIR=x64\Debug
+RELDIR=x64\Release
+
+DBG_OBJ=$(DBGDIR)\wvt.obj $(DBGDIR)\wvtWin.obj $(DBGDIR)\wvtMainWin.obj $(DBGDIR)\wvtMessageWin.obj
+REL_OBJ=$(RELDIR)\wvt.obj $(RELDIR)\wvtWin.obj $(RELDIR)\wvtMainWin.obj $(RELDIR)\wvtMessageWin.obj
+
+CFLAGS=/nologo /EHsc /c /W4 /WX
+LINKFLAGS=/nologo /subsystem:windows /machine:X64 /WX /nxcompat /dynamicbase $(DEPS)
+
+DBG_CFLAGS=/MTd /Zi
+REL_CFLAGS=/MT /GA /GL /Ox
+
+DBG_LINKFLAGS=/debug /pdb:$(OUT).pdb /out:$(OUT)d.exe
+REL_LINKFLAGS=/LTCG /out:$(OUT).exe
+
+all: debug release
+
+debug: $(OUT)d.exe
+
+$(OUT)d.exe: $(DBG_OBJ)
+	link $(DBG_OBJ) $(LINKFLAGS) $(DBG_LINKFLAGS)
+
+{./}.cpp{$(DBGDIR)}.obj:
+	cl $< /Fo$@ $(CFLAGS) $(DBG_CFLAGS)
+
+release: $(OUT).exe
+
+$(OUT).exe: $(REL_OBJ)
+	link $(REL_OBJ) $(LINKFLAGS) $(REL_LINKFLAGS)
+
+{./}.cpp{$(RELDIR)}.obj:
+	cl $< /Fo$@ $(CFLAGS) $(REL_CFLAGS)
+
+clean:
+	erase $(OUT).exe $(OUT)d.exe $(DBG_OBJ) $(REL_OBJ)
