@@ -97,6 +97,11 @@ int CALLBACK WinMain(
         SCREAM_AND_DIE("WaitForSingleObject");
     }
 
+    /* close thread handle */
+    if (!CloseHandle(mesgThreadHandle)) {
+      SCREAM_AND_DIE("CloseHandle");
+    }
+
     return EXIT_SUCCESS;
 }
 
